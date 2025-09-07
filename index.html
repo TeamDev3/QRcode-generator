@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      background: radial-gradient(circle at 20% 20%, #ff9a9e, #fad0c4, #fad0c4, #ffdde1);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Glowing Orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.6;
+      animation: floatOrbs 30s infinite ease-in-out;
+    }
+
+    @keyframes floatOrbs {
+      0% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-100px) translateX(50px); }
+      100% { transform: translateY(0) translateX(0); }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 20px;
+      margin-right: 610px;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      max-width: 350px;
+      height: 450px;
+      width: 100%;
+      text-align: center;
+      z-index: 1;
+      position: relative;
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    input {
+      width: 270px;
+     padding: 10px;
+      margin: 10px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    input:focus {
+      border-color: #6c63ff;
+    }
+
+    button {
+      background: linear-gradient(90deg, #6c63ff, #ff6ec4);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    #qrcode {
+      margin-top: 20px;
+      margin-left: 65px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Glowing orbs for background -->
+<div class="orb" style="width: 300px; height: 300px; background: #ff6ec4; top: -100px; left: -100px;"></div>
+<div class="orb" style="width: 250px; height: 250px; background: #6c63ff; bottom: -80px; right: -80px;"></div>
+<div class="orb" style="width: 200px; height: 200px; background: #fbc2eb; top: 50%; left: 70%;"></div>
+
+<div class="container">
+  <h1>QR Code Generator</h1>
+  <input type="text" id="text" placeholder="Enter text or URL">
+  <button onclick="generateQRCode()">Generate QR Code</button>
+  <div id="qrcode"></div>
+</div>
+
+<!-- QR Code Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  let qrcode;
+  function generateQRCode() {
+    const text = document.getElementById("text").value.trim();
+    const qrContainer = document.getElementById("qrcode");
+
+    qrContainer.innerHTML = ""; // clear previous QR
+
+    if (!text) {
+      alert("Please enter some text or a URL");
+      return;
+    }
+
+    qrcode = new QRCode(qrContainer, {
+      text: text,
+      width: 200,
+      height: 200,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
+</script>
+
+</body>
+</html>
